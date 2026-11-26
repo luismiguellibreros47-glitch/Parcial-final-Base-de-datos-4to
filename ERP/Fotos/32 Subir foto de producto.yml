@@ -1,0 +1,35 @@
+info:
+  name: "32 Subir foto de producto"
+  type: http
+  seq: 32
+
+http:
+  method: POST
+  url: "http://localhost:5001/api/productos/16/imagen"
+  body:
+    type: multipart-form
+    data:
+      - name: imagen
+        type: file
+        value: []
+  auth:
+    type: none
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        if (res.body?.ruta_imagen) bru.setVar("ruta_imagen", res.body.ruta_imagen);
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 200. En Body, en el campo imagen, selecciona un archivo JPG o PNG de tu equipo.

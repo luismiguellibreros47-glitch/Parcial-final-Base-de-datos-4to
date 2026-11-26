@@ -1,0 +1,33 @@
+info:
+  name: "06 Editar tercero de prueba"
+  type: http
+  seq: 6
+
+http:
+  method: PUT
+  url: "http://localhost:5001/api/terceros/{{tercero_prueba}}"
+  body:
+    type: json
+    data: |-
+      {
+        "nombre": "Tercero de prueba actualizado",
+        "contacto": "{{contacto_prueba}}",
+        "estado": 1
+      }
+  auth:
+    type: none
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 200.

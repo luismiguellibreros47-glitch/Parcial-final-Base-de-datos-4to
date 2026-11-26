@@ -1,0 +1,39 @@
+info:
+  name: "05 Crear tercero de prueba"
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "http://localhost:5001/api/terceros/"
+  body:
+    type: json
+    data: |-
+      {
+        "nombre": "Tercero de prueba Bruno ERP",
+        "contacto": "{{contacto_prueba}}"
+      }
+  auth:
+    type: none
+
+runtime:
+  scripts:
+    - type: before-request
+      code: |-
+        bru.setVar("contacto_prueba", "3" + String(Date.now()).slice(-9));
+    - type: after-response
+      code: |-
+        if (res.body?.id_tercero) bru.setVar("tercero_prueba", res.body.id_tercero);
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 201.

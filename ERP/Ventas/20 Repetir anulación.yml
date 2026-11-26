@@ -1,0 +1,29 @@
+info:
+  name: "20 Repetir anulación"
+  type: http
+  seq: 20
+
+http:
+  method: PUT
+  url: "http://localhost:5001/api/ventas/{{venta_anular}}/anular"
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "400"
+    - expression: res.body.sqlstate
+      operator: eq
+      value: "45000"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 400.

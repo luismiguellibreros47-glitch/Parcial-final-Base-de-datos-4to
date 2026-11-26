@@ -1,0 +1,32 @@
+info:
+  name: "02 Login incorrecto"
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "http://localhost:5001/api/auth/login"
+  body:
+    type: json
+    data: |-
+      {
+        "correo": "admin@erp.local",
+        "password": "clave-incorrecta"
+      }
+  auth:
+    type: none
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "401"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 401.

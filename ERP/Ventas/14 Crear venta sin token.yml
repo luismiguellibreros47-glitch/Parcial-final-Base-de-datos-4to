@@ -1,0 +1,40 @@
+info:
+  name: "14 Crear venta sin token"
+  type: http
+  seq: 14
+
+http:
+  method: POST
+  url: "http://localhost:5001/api/ventas/"
+  body:
+    type: json
+    data: |-
+      {
+        "id_tercero": 19,
+        "estado_venta": "Pendiente",
+        "detalles": [
+          {
+            "id_producto": 16,
+            "cantidad": 1,
+            "precioUnitario": 45000,
+            "porcentaje_iva": 0.19
+          }
+        ]
+      }
+  auth:
+    type: none
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "401"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 401.

@@ -1,0 +1,38 @@
+info:
+  name: "26 Intentar sobreabono"
+  type: http
+  seq: 26
+
+http:
+  method: POST
+  url: "http://localhost:5001/api/cartera/abonos"
+  body:
+    type: json
+    data: |-
+      {
+        "id_venta": "{{venta_credito}}",
+        "monto": "57101.00",
+        "metodo_pago": "Transferencia",
+        "observaciones": "Prueba de monto superior al saldo"
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "400"
+    - expression: res.body.sqlstate
+      operator: eq
+      value: "45000"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 400. La venta de dos unidades a 45000 más IVA suma 107100.00. Después de un abono de 50000.00, quedan 57100.00.

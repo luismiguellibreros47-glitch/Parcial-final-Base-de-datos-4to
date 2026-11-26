@@ -1,0 +1,25 @@
+info:
+  name: "07 Inactivar tercero de prueba"
+  type: http
+  seq: 7
+
+http:
+  method: DELETE
+  url: "http://localhost:5001/api/terceros/{{tercero_prueba}}"
+  auth:
+    type: none
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 200.

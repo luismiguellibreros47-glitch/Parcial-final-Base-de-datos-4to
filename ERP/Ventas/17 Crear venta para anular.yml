@@ -1,0 +1,45 @@
+info:
+  name: "17 Crear venta para anular"
+  type: http
+  seq: 17
+
+http:
+  method: POST
+  url: "http://localhost:5001/api/ventas/"
+  body:
+    type: json
+    data: |-
+      {
+        "id_tercero": 19,
+        "estado_venta": "Pendiente",
+        "detalles": [
+          {
+            "id_producto": 16,
+            "cantidad": 1,
+            "precioUnitario": 45000,
+            "porcentaje_iva": 0.19
+          }
+        ]
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        if (res.body?.id_venta) bru.setVar("venta_anular", res.body.id_venta);
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 201.

@@ -1,0 +1,44 @@
+info:
+  name: "23 Pedido con proveedor inactivo"
+  type: http
+  seq: 23
+
+http:
+  method: POST
+  url: "http://localhost:5001/api/pedidos/"
+  body:
+    type: json
+    data: |-
+      {
+        "id_tercero": "{{tercero_prueba}}",
+        "id_usuario": 1,
+        "estado_pedido": "Pendiente",
+        "detalles": [
+          {
+            "id_producto": 16,
+            "cantidad": 1,
+            "precioUnitario": 45000,
+            "porcentaje_iva": 0.19
+          }
+        ]
+      }
+  auth:
+    type: none
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "400"
+    - expression: res.body.sqlstate
+      operator: eq
+      value: "45000"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 400. Ejecuta primero Crear tercero de prueba e Inactivar tercero de prueba.

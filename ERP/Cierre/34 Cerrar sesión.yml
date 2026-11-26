@@ -1,0 +1,26 @@
+info:
+  name: "34 Cerrar sesión"
+  type: http
+  seq: 34
+
+http:
+  method: POST
+  url: "http://localhost:5001/api/auth/logout"
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 200.

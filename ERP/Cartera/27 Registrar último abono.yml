@@ -1,0 +1,35 @@
+info:
+  name: "27 Registrar último abono"
+  type: http
+  seq: 27
+
+http:
+  method: POST
+  url: "http://localhost:5001/api/cartera/abonos"
+  body:
+    type: json
+    data: |-
+      {
+        "id_venta": "{{venta_credito}}",
+        "monto": "57100.00",
+        "metodo_pago": "Transferencia",
+        "observaciones": "Pago del saldo restante"
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 201.

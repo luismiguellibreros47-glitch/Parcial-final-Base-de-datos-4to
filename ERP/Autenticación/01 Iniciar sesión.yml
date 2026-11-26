@@ -1,0 +1,36 @@
+info:
+  name: "01 Iniciar sesión"
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "http://localhost:5001/api/auth/login"
+  body:
+    type: json
+    data: |-
+      {
+        "correo": "admin@erp.local",
+        "password": "123456"
+      }
+  auth:
+    type: none
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        if (res.body?.token) bru.setVar("token", res.body.token);
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 200. Ejecuta esta solicitud al comenzar. El token queda disponible en las solicitudes protegidas durante la sesión de Bruno.

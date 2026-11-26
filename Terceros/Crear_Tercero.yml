@@ -1,0 +1,22 @@
+info:
+  name: Crear_Tercero
+  type: http
+
+http:
+  method: POST
+  url: http://localhost:5001/api/terceros/
+  body:
+    type: json
+    data: |-
+      {
+        "nombre": "Tercero de prueba Apretaita de  Bruno",
+        "contacto": "3008887799"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: true

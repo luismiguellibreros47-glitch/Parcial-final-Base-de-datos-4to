@@ -1,0 +1,35 @@
+info:
+  name: "25 Registrar abono parcial"
+  type: http
+  seq: 25
+
+http:
+  method: POST
+  url: "http://localhost:5001/api/cartera/abonos"
+  body:
+    type: json
+    data: |-
+      {
+        "id_venta": "{{venta_credito}}",
+        "monto": "50000.00",
+        "metodo_pago": "Transferencia",
+        "observaciones": "Abono parcial de prueba"
+      }
+  auth:
+    type: bearer
+    token: "{{token}}"
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+
+settings:
+  encodeUrl: true
+  timeout: 10000
+  followRedirects: true
+  maxRedirects: 5
+
+docs: |-
+  Respuesta esperada 201.
